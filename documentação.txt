@@ -1,0 +1,5 @@
+Status de um 'Game':
+    1 - Pendente
+    2 - Em Andamento
+    3 - Finalizado
+    4 - Recusado
