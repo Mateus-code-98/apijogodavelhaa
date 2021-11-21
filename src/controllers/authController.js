@@ -20,7 +20,7 @@ const Login = async (req, res, next) => {
         })
 
         // Informa apenas dados não sensíveis do usuário
-        const infoUser = user.type === "company" ? JsonOnlyAttrs(user, ['id', 'avatar', 'name', 'type', 'email', 'phone', 'city', 'state', 'country', 'cnpj', 'employeesRange', 'companySize', 'responsible']) : JsonOnlyAttrs(user, ['id', 'avatar', 'name', 'type', 'email', 'phone', 'cpf', 'sex', 'linkedin'])
+        const infoUser = JsonOnlyAttrs(user, ['id', 'name', 'email', 'photograph'])
 
         return res.json({ user: infoUser, token })
     }
