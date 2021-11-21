@@ -1,6 +1,7 @@
 const AppError = require("../errors/AppError")
 
 const ExceptionHandler = (err, req, res, next) => {
+    console.log(err)
     if (err instanceof AppError) {
         return res.status(err.statusCode).json({
             status: 'error',
