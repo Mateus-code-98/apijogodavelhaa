@@ -6,6 +6,6 @@ const routes = Router()
 
 routes.use('/users', UserRouter)
 routes.use('/games', GameRouter)
-routes.get('/login', Login)
+routes.post('/login', Login)
 
 module.exports = routes
