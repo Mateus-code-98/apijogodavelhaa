@@ -14,18 +14,10 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
-      },
-      password: {
-        type: Sequelize.STRING,
+        unique: true,
         allowNull: false
       },
-      photograph: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      photograph_public_id: {
+      photoUrl:{
         type: Sequelize.STRING,
         allowNull: true
       },

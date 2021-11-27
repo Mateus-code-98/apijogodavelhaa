@@ -40,6 +40,6 @@ io.on("connection", socket => {
     })
 })
 
-serverHttp.listen(port, () => {
+serverHttp.listen(port,'192.168.0.103', () => {
     console.log(`Server is running on PORT ${port}`)
 })
