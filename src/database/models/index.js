@@ -1,15 +1,10 @@
-const Game = require('./games');
+const Friendship = require('./friendships');
 const User = require('./user');
 
-User.hasMany(Game, { foreignKey: "userId_x", as: "gamesX" })
-User.hasMany(Game, { foreignKey: "userId_o", as: "gamesO" })
-User.hasMany(Game, { foreignKey: "winnerId", as: "gamesWinner" })
-User.hasMany(Game, { foreignKey: "loserId", as: "gamesLoser" })
+User.hasMany(Friendship, { foreignKey: "userId_x", as: "friendshipsX" })
+User.hasMany(Friendship, { foreignKey: "userId_o", as: "friendshipsO" })
 
-Game.belongsTo(User, { foreignKey: "userId_x", as: "playerX" })
-Game.belongsTo(User, { foreignKey: "userId_o", as: "playerO" })
-Game.belongsTo(User, { foreignKey: "winnerId", as: "winner" })
-Game.belongsTo(User, { foreignKey: "loserId", as: "loser" })
-Game.belongsTo(User, { foreignKey: "lastPlayerId", as: "lastPlayer" })
+Friendship.belongsTo(User, { foreignKey: "userId_x", as: "playerX" })
+Friendship.belongsTo(User, { foreignKey: "userId_o", as: "playerO" })
 
-module.exports = { User, Game }
+module.exports = { User, Friendship }

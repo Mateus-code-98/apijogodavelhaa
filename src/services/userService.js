@@ -1,6 +1,7 @@
 const { User } = require("../database/models")
 const { sign } = require("jsonwebtoken")
 const { generateKey } = require("./generalServices")
+const AppError = require("../errors/AppError")
 
 const authUserService = (user) => {
     const token = sign({}, process.env.JWT_SECRET, {
@@ -33,5 +34,12 @@ const getAllUsersService = async () => {
     return user
 }
 
+const findUserByFriendlyIdService = async ({ friendlyId, userId }) => {
+    if (!friendlyId) throw new AppError("Campo 'friendlyId' obrigatório!", 400, 'friendlyId')
+    const user = await User.findOne({ where: { friendlyId } })
+    if (!user) throw new AppError('Nenhum usuário encontrado!', 400, 'friendlyId')
+    if (user.id === userId) throw new AppError("Você não pode se convidar!", 400, 'friendlyId')
+    return user;
+}
 
-module.exports = { loginOrCreateUserService, getUserService, getAllUsersService }
+module.exports = { loginOrCreateUserService, getUserService, getAllUsersService, findUserByFriendlyIdService }
