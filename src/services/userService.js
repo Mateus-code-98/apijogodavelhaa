@@ -1,7 +1,6 @@
 const { User } = require("../database/models")
-const AppError = require("../errors/AppError");
-const { hash } = require("bcryptjs");
 const { sign } = require("jsonwebtoken")
+const { generateKey } = require("./generalServices")
 
 const authUserService = (user) => {
     const token = sign({}, process.env.JWT_SECRET, {
@@ -12,8 +11,8 @@ const authUserService = (user) => {
 }
 
 const createUserService = async ({ name, email, photoUrl }) => {
-
-    const newUser = await User.create({ name, email, photoUrl})
+    const friendlyId = generateKey()
+    const newUser = await User.create({ name, email, photoUrl, friendlyId })
 
     return newUser
 }

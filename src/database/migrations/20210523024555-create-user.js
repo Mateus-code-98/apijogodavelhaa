@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         unique: true
       },
+      friendlyId: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: false
@@ -17,7 +21,7 @@ module.exports = {
         unique: true,
         allowNull: false
       },
-      photoUrl:{
+      photoUrl: {
         type: Sequelize.STRING,
         allowNull: true
       },

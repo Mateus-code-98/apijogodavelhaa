@@ -7,13 +7,10 @@ const express = require('express');
 const cors = require("cors");
 const { ExceptionHandler } = require('./middlewares/exceptionHandler');
 const { ExceptionParams } = require('./middlewares/exceptionParams');
-const uploadConfig = require('./config/upload');
 
 const port = process.env.PORT ? process.env.PORT : 3000;
 const app = express()
 const routes = require('./routes/index');
-
-app.use("/files", express.static(uploadConfig.directory))
 
 app.use(cors())
 
