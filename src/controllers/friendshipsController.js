@@ -4,9 +4,9 @@ const { findUserByFriendlyIdService } = require("../services/userService")
 const createFriendshipController = async (req, res, next) => {
     const { friendlyId } = req.body
     const userId = req.user.id
-    const friend = await findUserByFriendlyIdService({ friendlyId,userId })
+    const friend = await findUserByFriendlyIdService({ friendlyId, userId })
     const newFriendship = await createFriendshipService({ userId_x: userId, userId_o: friend.id })
-    return res.json(newFriendship)
+    return res.json({ newFriendship, friend })
 }
 
 const getFriendsController = async (req, res, next) => {

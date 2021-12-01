@@ -14,7 +14,6 @@ const authUserService = (user) => {
 const createUserService = async ({ name, email, photoUrl }) => {
     const friendlyId = generateKey()
     const newUser = await User.create({ name, email, photoUrl, friendlyId })
-
     return newUser
 }
 
