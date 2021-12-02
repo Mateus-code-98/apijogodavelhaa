@@ -25,23 +25,29 @@ const getFriendsService = async ({ userId }) => {
     const friendships = await Friendship.findAll({
         where: literal(query),
         include: [
-            {
-                model: User,
-                as: 'playerX'
-            },
-            {
-                model: User,
-                as: 'playerO'
-            }
+            { model: User, as: 'playerX' },
+            { model: User, as: 'playerO' }
         ]
     })
 
     friendships.forEach((friendship) => {
-        if (friendship.userId_x === userId) friends.push(friendship.playerO)
-        else friends.push(friendship.playerX)
+        if (friendship.userId_x === userId) friends.push({ ...friendship.playerO.dataValues, friendshipId: friendship.id })
+        else friends.push({ ...friendship.playerX.dataValues, friendshipId: friendship.id })
     })
 
     return friends
 }
 
-module.exports = { createFriendshipService, getFriendsService }
+const getFriendshipService = async ({ friendshipId }) => {
+    const friendship = await Friendship.findByPk(friendshipId,
+        {
+            include: [
+                { model: User, as: 'playerX' },
+                { model: User, as: 'playerO' }
+            ]
+        }
+    )
+    return friendship
+}
+
+module.exports = { createFriendshipService, getFriendsService, getFriendshipService }

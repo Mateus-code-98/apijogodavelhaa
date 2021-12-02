@@ -23,8 +23,10 @@ const loginOrCreateUserService = async ({ name, email, photoUrl }) => {
     return authUserService(user)
 }
 
-const getUserService = async ({ email }) => {
-    const user = await User.findOne({ where: { email } })
+const getUserService = async ({ email, id }) => {
+    let user = {}
+    if (id) user = await User.findByPk(id)
+    else user = await User.findOne({ where: { email } })
     return user
 }
 
@@ -41,4 +43,15 @@ const findUserByFriendlyIdService = async ({ friendlyId, userId }) => {
     return user;
 }
 
-module.exports = { loginOrCreateUserService, getUserService, getAllUsersService, findUserByFriendlyIdService }
+const updateStatusOfUserService = async ({ userId, status, socketId }) => {
+    const user = await User.findByPk(userId)
+    if (user) {
+        user.status = status
+        user.socketId = socketId
+        await user.save()
+    }
+    return user
+}
+
+
+module.exports = { loginOrCreateUserService, getUserService, getAllUsersService, findUserByFriendlyIdService, updateStatusOfUserService }

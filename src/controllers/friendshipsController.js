@@ -1,4 +1,4 @@
-const { createFriendshipService, getFriendsService } = require("../services/friendshipsService")
+const { createFriendshipService, getFriendsService, getFriendshipService } = require("../services/friendshipsService")
 const { findUserByFriendlyIdService } = require("../services/userService")
 
 const createFriendshipController = async (req, res, next) => {
@@ -15,4 +15,10 @@ const getFriendsController = async (req, res, next) => {
     return res.json(friends)
 }
 
-module.exports = { createFriendshipController, getFriendsController }
+const getFriendshipController = async (req, res, next) => {
+    const { friendshipId } = req.params
+    const friendship = await getFriendshipService({ friendshipId })
+    return res.json(friendship)
+}
+
+module.exports = { createFriendshipController, getFriendsController, getFriendshipController }

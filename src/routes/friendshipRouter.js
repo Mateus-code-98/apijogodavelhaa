@@ -1,9 +1,10 @@
 const { Router } = require('express');
-const { createFriendshipController, getFriendsController } = require('../controllers/friendshipsController');
+const { createFriendshipController, getFriendsController, getFriendshipController } = require('../controllers/friendshipsController');
 
 const FriendshipRouter = Router()
 
-FriendshipRouter.post('/',createFriendshipController)
-FriendshipRouter.get('/',getFriendsController)
- 
+FriendshipRouter.post('/', createFriendshipController)
+FriendshipRouter.get('/', getFriendsController)
+FriendshipRouter.get('/:friendshipId', getFriendshipController)
+
 module.exports = { FriendshipRouter }

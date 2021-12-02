@@ -25,6 +25,15 @@ const User = database.define('Users', {
   photoUrl: {
     type: Sequelize.STRING,
     allowNull: true
+  },
+  status:{
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue:'off'
+  },
+  socketId:{
+    type: Sequelize.STRING,
+    allowNull: true
   }
 })
 
