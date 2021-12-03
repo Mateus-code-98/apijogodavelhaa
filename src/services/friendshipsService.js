@@ -50,4 +50,21 @@ const getFriendshipService = async ({ friendshipId }) => {
     return friendship
 }
 
-module.exports = { createFriendshipService, getFriendsService, getFriendshipService }
+const newMoveService = async ({ friendshipId, x, y }) => {
+    const friendship = await getFriendshipService({ friendshipId })
+
+    const newMoveType = friendship.turn === friendship.playerO.id ? 1 : -1
+    const newTurn = friendship.turn === friendship.playerO.id ? friendship.playerX.id : friendship.playerO.id
+
+    const gameArray = JSON.parse(friendship.game)
+    gameArray[y][x] = newMoveType
+
+    friendship.turn = newTurn
+    friendship.game = JSON.stringify(gameArray)
+
+    await friendship.save()
+
+    return friendship
+}
+
+module.exports = { createFriendshipService, getFriendsService, getFriendshipService, newMoveService }
