@@ -36,6 +36,18 @@ const Friendship = database.define('Friendships', {
   turn: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  winner: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  request_x: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  request_o: {
+    type: Sequelize.STRING,
+    allowNull: true
   }
 })
 

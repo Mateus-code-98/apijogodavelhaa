@@ -60,10 +60,16 @@ const newMoveService = async ({ friendshipId, x, y }) => {
     gameArray[y][x] = newMoveType
 
     const hasWinner = hasWinnerService({ game: gameArray })
-    if (hasWinner.status){
+
+    if (hasWinner.status) {
         friendship.status = 'finished'
-        if(hasWinner.type === 'X')friendship.victories_x += 1
+        friendship.winner = hasWinner.type
+        if (hasWinner.type === 'X') friendship.victories_x += 1
         else friendship.victories_o += 1
+    }
+    else {
+        const isEnd = isFinished({ game: gameArray })
+        if (isEnd) friendship.status = 'finished'
     }
 
     friendship.turn = newTurn
@@ -110,4 +116,32 @@ const thisLineIsCompletedService = (line) => {
     return { status: false }
 }
 
-module.exports = { createFriendshipService, hasWinnerService, getFriendsService, getFriendshipService, newMoveService }
+const isFinished = ({ game }) => {
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (game[i][j] === 0) return false
+        }
+    }
+    return true
+}
+
+const requestService = async ({ userId, friendshipId }) => {
+    const friendship = await getFriendshipService({ friendshipId })
+    
+    if (friendship.userId_o === userId) friendship.request_o = "required"
+    else friendship.request_x = "required"
+
+    if (friendship.request_x === "required" && friendship.request_o === "required") {
+        friendship.request_x = null
+        friendship.request_o = null
+        friendship.winner = null
+        friendship.status = "inProgress"
+        friendship.game = JSON.stringify([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    }
+
+    await friendship.save()
+
+    return friendship
+}
+
+module.exports = { createFriendshipService, hasWinnerService, getFriendsService, getFriendshipService, newMoveService, requestService }

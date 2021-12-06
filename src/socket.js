@@ -1,6 +1,6 @@
 const { Server } = require("socket.io")
 const { serverHttp } = require("./http")
-const { newMoveService } = require("./services/friendshipsService")
+const { newMoveService, requestService } = require("./services/friendshipsService")
 const { updateStatusOfUserService, getUserService } = require("./services/userService")
 
 const io = new Server(serverHttp, {
@@ -26,6 +26,12 @@ io.on("connection", async (socket) => {
             socket.broadcast.emit(`${userId}`, userOff)
             console.log(`Emiti para - ${userId} - off`)
         }
+    })
+
+    socket.on("request", async (data) => {
+        const newFriendship = await requestService(data)
+        socket.broadcast.emit(`new-move-${data.friendshipId}`, newFriendship)
+        socket.emit(`new-move-${data.friendshipId}`, newFriendship)
     })
 
     socket.on("new-move", async (data) => {
