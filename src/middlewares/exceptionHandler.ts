@@ -1,6 +1,7 @@
-const AppError = require("../errors/AppError")
+import { Request, Response, NextFunction } from "express"
+import { AppError } from "../errors/AppError"
 
-const ExceptionHandler = (err, req, res, next) => {
+export const ExceptionHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     console.log(err)
     if (err instanceof AppError) {
         return res.status(err.statusCode).json({
@@ -28,5 +29,3 @@ const ExceptionHandler = (err, req, res, next) => {
         message: 'Internal server error!'
     })
 }
-
-module.exports = { ExceptionHandler }

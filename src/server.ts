@@ -1,8 +1,8 @@
-require('dotenv/config');
-require('express-async-errors');
-require('./socket')
+import 'dotenv/config'
+import 'express-async-errors'
+import './socket'
 
-const { serverHttp } = require('./http');
+import { serverHttp } from './http'
 
 const port = process.env.PORT ? process.env.PORT : 3000;
 

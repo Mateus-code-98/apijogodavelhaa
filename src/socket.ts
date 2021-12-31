@@ -1,7 +1,7 @@
-const { Server } = require("socket.io")
-const { serverHttp } = require("./http")
-const { newMoveService, requestService } = require("./services/friendshipsService")
-const { updateStatusOfUserService, getUserService } = require("./services/userService")
+import { Server } from "socket.io"
+import { serverHttp } from "./http"
+import { newMoveService, requestService } from "./services/friendshipsService"
+import { updateStatusOfUserService, getUserService } from "./services/userService"
 
 const io = new Server(serverHttp, {
     cors: {
@@ -20,30 +20,30 @@ io.on("connection", async (socket) => {
 
     socket.on("disconnect", async () => {
         console.log(`Usuário desconectado do socket ${socket.id}`)
-        const user = await getUserService({ id: userId })
+        const user = await getUserService('', userId as string)
         if (user && (user.socketId === socket.id)) {
-            const userOff = await updateStatusOfUserService({ status: 'off', socketId: null, userId })
+            const userOff = await updateStatusOfUserService(userId as string, 'off', null)
             socket.broadcast.emit(`${userId}`, userOff)
             console.log(`Emiti para - ${userId} - off`)
         }
     })
 
     socket.on("request", async (data) => {
-        const newFriendship = await requestService(data)
+        const newFriendship = await requestService(data.userId, data.friendshipId)
         socket.broadcast.emit(`new-move-${data.friendshipId}`, newFriendship)
         socket.emit(`new-move-${data.friendshipId}`, newFriendship)
     })
 
     socket.on("new-move", async (data) => {
-        const newFriendship = await newMoveService(data)
+        const newFriendship = await newMoveService(data.friendshipId, data.x, data.y)
         socket.broadcast.emit(`new-move-${data.friendshipId}`, newFriendship)
     })
 
-    const userOn = await updateStatusOfUserService({ status: 'on', socketId: socket.id, userId })
+    const userOn = await updateStatusOfUserService(userId as string, 'on', null)
 
     socket.broadcast.emit(`${userId}`, userOn)
 
     console.log(`Emiti para - ${userId} - on`)
 })
 
-module.exports = { io }
+export { io }

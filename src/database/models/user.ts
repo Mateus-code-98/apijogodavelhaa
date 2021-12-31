@@ -1,7 +1,19 @@
-const Sequelize = require('sequelize');
-const database = require('../db')
+import Sequelize from 'sequelize'
+import { database } from '../db'
 
-const User = database.define('Users', {
+export interface UserAttributes {
+  id: string
+  name: string
+  friendlyId: string
+  email: string
+  photoUrl: string | null
+  status: string
+  socketId: string | null
+}
+
+export interface UserInstance extends Sequelize.Model<UserAttributes, any>, UserAttributes { }
+
+export const User = database.define<UserInstance>('Users', {
   id: {
     type: Sequelize.UUID,
     allowNull: false,
@@ -26,15 +38,14 @@ const User = database.define('Users', {
     type: Sequelize.STRING,
     allowNull: true
   },
-  status:{
+  status: {
     type: Sequelize.STRING,
     allowNull: false,
-    defaultValue:'off'
+    defaultValue: 'off'
   },
-  socketId:{
+  socketId: {
     type: Sequelize.STRING,
     allowNull: true
   }
 })
 
-module.exports = User;

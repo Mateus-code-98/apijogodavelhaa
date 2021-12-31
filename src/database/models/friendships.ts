@@ -1,7 +1,25 @@
-const Sequelize = require('sequelize');
-const database = require('../db')
+import Sequelize from 'sequelize'
+import { database } from '../db'
 
-const Friendship = database.define('Friendships', {
+export interface FriendshipAttributes {
+  id: string
+  game: string
+  status: string
+  userId_x: string
+  userId_o: string
+  victories_o: string
+  victories_x: string
+  turn: string
+  winner: string | null
+  request_x: string | null
+  request_o: string | null
+  playerO?: any
+  playerX?: any
+}
+
+interface FriendshipInstance extends Sequelize.Model<FriendshipAttributes, any>, FriendshipAttributes { }
+
+export const Friendship = database.define<FriendshipInstance>('Friendships', {
   id: {
     type: Sequelize.UUID,
     allowNull: false,
@@ -50,5 +68,3 @@ const Friendship = database.define('Friendships', {
     allowNull: true
   }
 })
-
-module.exports = Friendship;
